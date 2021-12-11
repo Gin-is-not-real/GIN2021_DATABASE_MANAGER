@@ -9,6 +9,20 @@ class DatabaseManager {
         $this->pdo = $this->initPDO();
     }
 
+    public function initPdo() {
+        if(!$this->tableExist()) {
+            $this->initDatabase();
+        }
+
+        $pdo = $this->getBaseConnection();
+
+        //DEBUG
+        echo __METHOD__ .' complete: ' . '<br>';
+        echo var_dump($pdo) . '<br>';
+
+        return $pdo;
+    }
+
     public function tableExist() {
         $hostConnection = $this->getHostConnection();
         $dbName = $this->DB_INFO['NAME'];
@@ -64,25 +78,11 @@ class DatabaseManager {
         return $pdo;   
     }
 
-    public function initPdo() {
-        if(!$this->tableExist()) {
-            $this->initDatabase();
-        }
-
-        $pdo = $this->getBaseConnection();
-
-        //DEBUG
-        echo __METHOD__ .' complete: ' . '<br>';
-        echo var_dump($pdo) . '<br>';
-
-        return $pdo;
-    }
-
     public function initDatabase() {
         $hostConnection = $this->getHostConnection();
 
-        $query = "CREATE DATABASE IF NOT EXISTS " . $this->DB_INFO['NAME'];
-        $hostConnection->exec($query); 
+        // $query = "CREATE DATABASE IF NOT EXISTS " . $this->DB_INFO['NAME'];
+        // $hostConnection->exec($query); 
 
         $query = file_get_contents($this->DB_INFO['SQL_FILE']);
         $array = explode(PHP_EOL, $query);
@@ -97,26 +97,39 @@ class DatabaseManager {
         echo __METHOD__ .' complete: ' . '<br>';
     }
 
-
-
-    public function createDatabase(){
-        $hostConnection = $this->getHostConnection();
-
-        $query = "CREATE DATABASE IF NOT EXISTS " . $this->DB_INFO['NAME'];
-        $hostConnection->exec($query); 
-        
-        //DEBUG
-        echo __METHOD__ .' complete: ' . '<br>';
+    public function executeQuery() {
+        try {
+            $entry = $this->pdo->prepare("INSERT INTO " . $this->DB_INFO['NAME'] . " (id, email, username, password) VALUES (:id, :email, :username, :password)");
+            $affectedLines = $entry->execute(array(
+                'id' => NULL,
+                'email' => 'email test',
+                'username' => 'username test',
+                'password' => 'password test',
+            ));
+        } catch (Exception $e) {
+            die('ERROR on ' . __METHOD__ . ': ' . $e->getMessage());
+        }
     }
 
-    public function createTable(){
-        $hostConnection = $this->getBaseConnection();
 
-        $query = "CREATE TABLE IF NOT EXISTS " . $this->DB_INFO['TABLENAME'] . " (" . $this->DB_INFO['TABLECOLUMNS'] . ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+    // public function createDatabase(){
+    //     $hostConnection = $this->getHostConnection();
 
-        $hostConnection->exec($query); 
+    //     $query = "CREATE DATABASE IF NOT EXISTS " . $this->DB_INFO['NAME'];
+    //     $hostConnection->exec($query); 
         
-        //DEBUG
-        echo __METHOD__ .' complete: ' . '<br>';
-    }
+    //     //DEBUG
+    //     echo __METHOD__ .' complete: ' . '<br>';
+    // }
+
+    // public function createTable(){
+    //     $hostConnection = $this->getBaseConnection();
+
+    //     $query = "CREATE TABLE IF NOT EXISTS " . $this->DB_INFO['TABLENAME'] . " (" . $this->DB_INFO['TABLECOLUMNS'] . ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+
+    //     $hostConnection->exec($query); 
+        
+    //     //DEBUG
+    //     echo __METHOD__ .' complete: ' . '<br>';
+    // }
 }
