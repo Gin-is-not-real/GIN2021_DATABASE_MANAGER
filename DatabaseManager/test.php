@@ -5,5 +5,5 @@ echo 'test.php'  . '<br>';
 
 $dbManager = new DatabaseManager();
 
-
+$dbManager->QueryTest();
 

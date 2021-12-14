@@ -21,7 +21,7 @@ Lors qu'il est intancié, le dbManager récupere les variables du fichier conf.p
 Il instancie son attribut pdo en appelant sa méthode *initPdo()*
 
 ### getHostconnection
-Retourne un PDO connecté au serveur 
+Retourne un PDO connecté au serveur. Il n'essaye pas de se connecter à une base de données.
 
 ### getBaseconnection
 Retourne un PDO connecté à la base de données 
