@@ -9,6 +9,7 @@ class DatabaseManager {
         $this->pdo = $this->initPDO();
     }
 
+
     public function tableExist() {
         $hostConnection = $this->getHostConnection();
         $dbName = $this->DB_INFO['NAME'];
@@ -19,11 +20,12 @@ class DatabaseManager {
         $exist =  intval($req->fetch()['s']);
 
         //DEBUG
-        echo __METHOD__ .' complete: ' . '<br>';
-        echo var_dump($exist > 0) . ' (' . __METHOD__ . ')<br>';
+        echo '<h4>' . __METHOD__ .': ' . '</h4>';
+        echo var_dump($exist > 0) . '<br>';
 
         return ($exist > 0);
     }
+
 
     private function getHostConnection() {
         $url = "mysql:host=" . $this->DB_INFO['HOST'];
@@ -37,13 +39,16 @@ class DatabaseManager {
             $pdo = new PDO($url, $this->DB_INFO['USER'], $this->DB_INFO['PASSWORD'], $options);
         }
         catch(PDOException $e){
-            echo "ERROR : " . $e->getMessage();
+            echo "ERROR on " . __METHOD__ . ": " . $e->getMessage();
         }
 
         //DEBUG
-        echo __METHOD__ .' complete' . '<br>';
+        echo '<h4>' . __METHOD__ .' complete' . '</h4>';
+        echo 'return ' . var_dump($pdo) . '<br>';
+
         return $pdo;   
     }
+
 
     private function getBaseConnection() {
         $options = [
@@ -56,32 +61,38 @@ class DatabaseManager {
             $pdo = new PDO($this->DB_INFO['URL'], $this->DB_INFO['USER'], $this->DB_INFO['PASSWORD'], $options);
         }
         catch(PDOException $e){
-            echo "ERROR : " . $e->getMessage();
+            echo "ERROR on " . __METHOD__ . ": " . $e->getMessage();
         }
 
         //DEBUG
-        echo __METHOD__ .' complete' . '<br>';
+        echo '<h4>' . __METHOD__ .' complete' . '</h4>';
+        echo 'return ' . var_dump($pdo) . '<br>';
+
         return $pdo;   
     }
+
 
     private function initPdo() {
         if(!$this->tableExist()) {
             // $this->createDatabase();
             // $this->createTable();
-            $this->initDatabase();
+            $this->createDatabaseFromSql();
         }
 
         $pdo = $this->getBaseConnection();
         // $this->pdo = $pdo;
 
         //DEBUG
-        echo __METHOD__ .' complete: ' . '<br>';
+        echo '<h4>' . __METHOD__ .' complete: ' . '</h4>';
         echo var_dump($pdo) . '<br>';
 
         return $pdo;
     }
 
-    private function initDatabase() {
+    
+    private function createDatabaseFromSql() {
+        //DEBUG
+
         $hostConnection = $this->getHostConnection();
 
         $query = file_get_contents($this->DB_INFO['SQL_FILE']);
@@ -94,11 +105,14 @@ class DatabaseManager {
         }
 
         //DEBUG
-        echo __METHOD__ .' complete: ' . '<br>';
+        echo '<h4>' . __METHOD__ .' complete ' . '</h4>';
+        echo 'file ' . $this->DB_INFO['SQL_FILE'] . ' as been imported<br>';
     }
 
 
-
+    /**
+     * these next are tests in progress
+     */
     private function createDatabase(){
         $hostConnection = $this->getHostConnection();
 
@@ -106,7 +120,7 @@ class DatabaseManager {
         $hostConnection->exec($query); 
         
         //DEBUG
-        echo __METHOD__ .' complete: ' . '<br>';
+        echo '<h4>' . __METHOD__ .' complete: ' . '</h4>';
     }
 
     private function createTable(){
@@ -117,11 +131,12 @@ class DatabaseManager {
         $hostConnection->exec($query); 
         
         //DEBUG
-        echo __METHOD__ .' complete: ' . '<br>';
+        echo '<h4>' . __METHOD__ .' complete: table ' . $this->DB_INFO['TABLENAME'] . '</h4>';
     }
 
     public function QueryTest() {
         $dbName = $this->DB_INFO['TABLENAME'];
+        echo '<h4>' . __METHOD__ .' try to create database: ' . '</h4>';
         echo var_dump($dbName);
 
         try {

@@ -7,7 +7,8 @@ $DB_HOST = nom de l'hote;
 $DB_NAME = nom de la base;
 $DB_USER = nom d'utilisateur ;
 $DB_PASSWORD = mot de passe;  
-$DB_TABLENAME = nomde la table;
+$DB_TABLENAME = nom de la table;
+$DB_IMPORT_FILENAME = nom du fichier à importer
 
 exemple:
 $DB_HOST = 'localhost';
@@ -15,6 +16,7 @@ $DB_NAME = 'demo_2021_dbManager';
 $DB_USER = 'root';
 $DB_PASSWORD = '';
 $DB_TABLENAME = 'demo_dbManager';
+$DB_IMPORT_FILENAME = 'demo_2021_dbManager.sql';
 
 ## DatabaseManager  
 Lors qu'il est intancié, le dbManager récupere les variables du fichier conf.php necessaire pour les interractions avec le SGBD dans un tableau DB_INFO.

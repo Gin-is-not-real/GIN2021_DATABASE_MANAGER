@@ -3,12 +3,12 @@
  * please edit the following variables to configure the connection to your database
  */
 $DB_HOST = 'localhost';
-$DB_NAME = 'demo_2021_dbmanager';
+$DB_NAME = 'demo_dbManager';
 $DB_USER = 'root';
 $DB_PASSWORD = 'root';
 $DB_TABLENAME = 'demo_dbManager';
 
-$DB_IMPORT_FILENAME = 'demo_2021_dbmanager.sql';
+$DB_IMPORT_FILENAME = 'demo_dbManager.sql';
 
 
 /**
