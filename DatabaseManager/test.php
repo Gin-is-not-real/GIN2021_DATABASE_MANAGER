@@ -6,5 +6,7 @@ echo '<p>test refonte'  . '</p>';
 
 // called with a json configuration filename for get database informations
 $dbManager = new DatabaseManager('conf.test.json');
-$dbManager->check_if_table_exist();
+$dbManager->check_if_base_exist('tg');
+$dbManager->check_if_table_exist('test');
+// $dbManager->get_base_connection();
 
