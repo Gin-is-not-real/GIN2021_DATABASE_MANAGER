@@ -1,43 +1,26 @@
 <?php 
+require 'conf.php';
+
 class DatabaseManager {
     private $DB_INFO;
 
-    public function __construct($conf_file_url = 'conf.test.json') {
-        $this->load_config_file($conf_file_url);
-        // $this->DB_INFO = $GLOBALS['DB_INFO'];
-        // $this->pdo = $this->initPDO();
-    }
-
-    /**
-     * Define this->DB_INFO from the information in the json file 
-     */
-    public function load_config_file($file_url) {
-        // $this->DB_INFO = json_decode(file_get_contents($file_url));
-
-        //add flag true for get an array
-        $this->DB_INFO = json_decode(file_get_contents($file_url), true);
-
-        #DEBUG
-        echo '<h4>' . __METHOD__ . ' loaded config from file ' . $file_url . '</h4>';
-        echo var_dump(json_decode(file_get_contents($file_url)));
+    public function __construct() {
+        $this->DB_INFO = $GLOBALS['DB_INFO'];
+        $this->pdo = $this->initPDO();
     }
 
 
-    
-    public function check_if_table_exist() {
-    // public function check_if_table_exist($db_name = NULL, $db_tablename = NULL) {
+    public function tableExist() {
         $hostConnection = $this->getHostConnection();
-        $db_name = $this->DB_INFO['NAME'];
-        $db_tablename = $this->DB_INFO['TABLENAME'];
+        $dbName = $this->DB_INFO['NAME'];
+        $tableName = $this->DB_INFO['TABLENAME'];
 
-        // echo die(var_dump($db_name, $db_tablename));
-
-        $req = $hostConnection->query("SELECT count(*) as s FROM information_schema.tables WHERE table_schema = '$db_name' AND table_name = '$db_tablename'");
+        $req = $hostConnection->query("SELECT count(*) as s FROM information_schema.tables WHERE table_schema = '$dbName' AND table_name = '$tableName'");
 
         $exist =  intval($req->fetch()['s']);
 
         //DEBUG
-        echo '<h4>' . __METHOD__ .': search table "' . $db_name . '" in base "' . $db_tablename . '"</h4>';
+        echo '<h4>' . __METHOD__ .': ' . '</h4>';
         echo var_dump($exist > 0) . '<br>';
 
         return ($exist > 0);
