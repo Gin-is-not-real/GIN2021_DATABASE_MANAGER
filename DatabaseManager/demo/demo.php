@@ -14,16 +14,31 @@
 
     <main>
         <article>
-            <header>
-                <h3>Configuration</h3>
+            <section>
+                <header>
+                    <h3>Configuration</h3>
+                </header>
                 <div>
                     <p>The object uses the values stored in a json configuration file to connect to the server.</p>
                     <p>The first step is to edit the configuration file with your information.</p>
-                    <p>For this demo, the configuration file is located at /GIN2021_DATABASE_MANAGER/demo/conf.demo.json</p>
+                    <p>For this demo, the configuration file is located at /GIN2021_DATABASE_MANAGER/DatabaseManager/demo/conf.demo.json</p>
                     <p><strong>First, please edit the file with put your own informations</strong></p>
                 </div>
-            </header>
+            </section>
 
+            <section>
+                <header>
+                    <h3>Check if exist</h3>
+                </header>
+                <div>
+                    <p>Using server informations, you can test if a base exist.</p>
+                   <!-- mettre formulaire pour appeler class method check base en AJAX -->
+                </div>
+                <div>
+                    <p>Using server and base informations, you can test if a table exist on base</p>
+                    <!-- mettre formulaire pour appeler class method check table en AJAX -->
+                </div>
+            </section>
         </article>
 
 

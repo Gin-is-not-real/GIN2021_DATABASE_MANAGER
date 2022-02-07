@@ -24,9 +24,8 @@ function test_values($dbM) {
 
     echo '<h4>' . __METHOD__ .' must be true: ' . '</h4>';
 
-    $dbM->check_if_base_exist('demo_dbManager');
-    $dbM->check_if_table_exist('users');
-
+    $dbM->check_if_base_exist('demo_2021_dbmanager');
+    $dbM->check_if_table_exist('demo_dbManager');
 }
 
 

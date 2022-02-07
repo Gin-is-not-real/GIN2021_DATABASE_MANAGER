@@ -4,5 +4,5 @@
     "USER": "root",
     "PASSWORD": "root",
     "TABLENAME": "demo_dbManager",
-    "IMPORT_FILENAME": "demo_2021_dbmanager.sql"
+    "IMPORT_FILENAME": "tests/demo_2021_dbmanager.sql"
 }
