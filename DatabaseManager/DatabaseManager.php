@@ -3,25 +3,9 @@ class DatabaseManager {
     private $DB_INFO;
     public $pdo;
 
-    public function __construct($conf_file_url = 'conf.test.json') {
+    public function __construct($conf_file_url = 'conf.test.json', $options = []) {
         $this->load_config_file($conf_file_url);
-        $this->init_PDO();
-    }
-
-    /**
-     * Init object property pdo, firt connected to host, then checks if the database exists, and connects to it if necessary
-     */
-    private function init_PDO() {
-        //DEBUG
-        echo '<h4>' . __METHOD__ .' start' . '</h4>';
-        $this->pdo = $this->connect_host();
-
-        if($this->check_if_base_exist()) {
-            $this->pdo = $this->connect_database();
-        }
-        //DEBUG
-        echo '<h4>' . __METHOD__ .' complete' . '</h4>';
-        echo 'returned ' . var_dump($this->pdo) . '<br>';
+        $this->init_PDO($options);
     }
 
 
@@ -38,8 +22,35 @@ class DatabaseManager {
     }
 
 
+    
     /**
-     * Get a connection with host, using its object properties as connection informations. The query search the table in the information_schema of the database.
+     * Init object property pdo, firt connected to host, then checks if the database exists, and connects to it if necessary
+     */
+    private function init_PDO($options = []) {
+        //DEBUG
+        echo '<h4>' . __METHOD__ .' start' . '</h4>';
+        echo 'options ' . var_dump($options) . '<br>';
+        echo 'array_search ' . var_dump(array_search('force_import', $options)) . '<br>';
+
+        
+        $this->pdo = $this->connect_host();
+
+        if($this->check_if_base_exist()) {
+            $this->pdo = $this->connect_database();
+        }
+        else {
+            if(array_search('force_import', $options) != false) {
+                echo '<p>force import</p>';
+            }
+        }
+        //DEBUG
+        echo '<h4>' . __METHOD__ .' complete' . '</h4>';
+        echo 'returned ' . var_dump($this->pdo) . '<br>';
+    }
+
+
+    /**
+     * Search the base in the information_schema
      * @return bool
      */
     public function check_if_base_exist($basename = null) {
@@ -60,7 +71,7 @@ class DatabaseManager {
 
 
     /**
-     * Get a connection with host, using its object properties as connection informations. The query search the table in the information_schema of the database.
+     * Search the table in the information_schema of the database.
      * @return bool
      */
     public function check_if_table_exist($tablename = null) {
