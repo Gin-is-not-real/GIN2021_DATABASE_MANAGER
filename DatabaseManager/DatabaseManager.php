@@ -25,12 +25,14 @@ class DatabaseManager {
     
     /**
      * Init object property pdo, firt connected to host, then checks if the database exists, and connects to it if necessary
+     * With option "force_import", 
      */
-    private function init_PDO($options = []) {
+    private function init_PDO($options = ['force_import' => false]) {
         //DEBUG
         echo '<h4>' . __METHOD__ .' start' . '</h4>';
         echo 'options ' . var_dump($options) . '<br>';
-        echo 'array_search ' . var_dump(array_search('force_import', $options)) . '<br>';
+        // echo 'in_array ' . var_dump(in_array('force_import', $options) !== false) . '<br>';
+        echo 'force_import ' . var_dump($options['force_import']) . '<br>';
 
         
         $this->pdo = $this->connect_host();
@@ -39,9 +41,14 @@ class DatabaseManager {
             $this->pdo = $this->connect_database();
         }
         else {
-            if(array_search('force_import', $options) != false) {
-                echo '<p>force import</p>';
+            if($options['force_import'] === true) {
+                echo 'force_import ' . var_dump($options['force_import']) . '<br>';
+                $this->import_database_from_sql();
             }
+            // if(array_search('force_import', $options) !== false) {
+            //     echo 'in_array ' . var_dump(in_array('force_import', $options) !== false) . '<br>';
+
+            // }
         }
         //DEBUG
         echo '<h4>' . __METHOD__ .' complete' . '</h4>';
@@ -147,31 +154,14 @@ class DatabaseManager {
         return $pdo;   
     }
 
-    
-    private function init_pdoOLD() {
-        // if(!$this->tableExist()) {
-        //     // $this->createDatabase();
-        //     // $this->createTable();
-        //     $this->createDatabaseFromSql();
-        // }
 
-        $pdo = $this->connect_database();
-        // $this->pdo = $pdo;
+    /**
+     * Get and formats information from the sql file to import the database
+     */
+    private function import_database_from_sql() {
+        $host_connection = $this->pdo;
 
-        //DEBUG
-        echo '<h4>' . __METHOD__ .' complete: ' . '</h4>';
-        echo var_dump($pdo) . '<br>';
-
-        return $pdo;
-    }
-
-    
-    private function createDatabaseFromSql() {
-        //DEBUG
-
-        $host_connection = $this->connect_host();
-
-        $query = file_get_contents($this->DB_INFO['SQL_FILE']);
+        $query = file_get_contents($this->DB_INFO['IMPORT_FILENAME']);
         $array = explode(PHP_EOL, $query);
 
         foreach($array as $sql) {
@@ -182,12 +172,12 @@ class DatabaseManager {
 
         //DEBUG
         echo '<h4>' . __METHOD__ .' complete ' . '</h4>';
-        echo 'file ' . $this->DB_INFO['SQL_FILE'] . ' as been imported<br>';
+        echo 'file ' . $this->DB_INFO['IMPORT_FILENAME'] . ' as been imported<br>';
     }
 
 
     /**
-     * these next are tests in progress
+     * these next are tests in progress for create database step by step
      */
     private function createDatabase(){
         $host_connection = $this->connect_host();
