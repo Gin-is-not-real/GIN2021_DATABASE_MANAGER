@@ -31,24 +31,29 @@ class DatabaseManager {
         //DEBUG
         echo '<h4>' . __METHOD__ .' start' . '</h4>';
         echo 'options ' . var_dump($options) . '<br>';
-        // echo 'in_array ' . var_dump(in_array('force_import', $options) !== false) . '<br>';
-        echo 'force_import ' . var_dump($options['force_import']) . '<br>';
 
-        
         $this->pdo = $this->connect_host();
 
         if($this->check_if_base_exist()) {
+            echo 'exist ' . var_dump($this->check_if_base_exist()) . '<br>';
+
+            if($options['force_import'] === true) {
+                echo 'to force_import: drop, then import_database_from_sql' . var_dump($options['force_import']) . '<br>';
+
+                $this->drop_database($this->DB_INFO['NAME']);
+                $this->import_database_from_sql();
+            }
+
             $this->pdo = $this->connect_database();
         }
         else {
-            if($options['force_import'] === true) {
-                echo 'force_import ' . var_dump($options['force_import']) . '<br>';
+            echo 'no exist ' . var_dump($this->check_if_base_exist()) . '<br>';
+
+            if($options['force_import'] === 'if_no_exist' OR $options['force_import'] === true) {
+                echo 'force_import: import_database_from_sql' . var_dump($options['force_import']) . '<br>';
+
                 $this->import_database_from_sql();
             }
-            // if(array_search('force_import', $options) !== false) {
-            //     echo 'in_array ' . var_dump(in_array('force_import', $options) !== false) . '<br>';
-
-            // }
         }
         //DEBUG
         echo '<h4>' . __METHOD__ .' complete' . '</h4>';
@@ -98,6 +103,20 @@ class DatabaseManager {
 
         return ($exist > 0);
     }
+
+    private function drop_database($db_name) {
+        try{ 
+            $sql = "DROP database " . $db_name . ""; 
+            $this->pdo->exec($sql); 
+
+            //DEBUG
+            echo '<h4>' . __METHOD__ .': Database "' . $db_name . '" deleted successfully"</h4>';
+
+        } catch(PDOException $e){ 
+            die("ERROR on " . __METHOD__ . ": Could not able to execute $sql. " . $e->getMessage()); 
+        } 
+    }
+
 
 
     /**
@@ -176,6 +195,7 @@ class DatabaseManager {
     }
 
 
+    
     /**
      * these next are tests in progress for create database step by step
      */

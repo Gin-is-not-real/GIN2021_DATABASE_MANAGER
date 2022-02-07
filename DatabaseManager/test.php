@@ -2,11 +2,31 @@
 require 'DatabaseManager.php';
 
 echo '<h3>script test test.php' . '</h3>';
-echo '<p>test refonte'  . '</p>';
+echo '<p>tests refonte'  . '</p>';
 
 // called with a json configuration filename for get database informations
+// set force_import to 'if_no_exist' import database if no exist
+// set force_import to true erase bdd if exist
+
+// $dbManager = new DatabaseManager('conf.test.json', ["force_import" => 'if_no_exist']);
 $dbManager = new DatabaseManager('conf.test.json', ["force_import" => true]);
-$dbManager->check_if_base_exist('tg');
-$dbManager->check_if_table_exist('test');
-// $dbManager->get_base_connection();
+
+
+test_values($dbManager);
+
+
+function test_values($dbM) {
+    echo '<hr>';
+    echo '<h4>' . __METHOD__ .' must be false: ' . '</h4>';
+
+    $dbM->check_if_base_exist('badtest');
+    $dbM->check_if_table_exist('badtest');
+
+    echo '<h4>' . __METHOD__ .' must be true: ' . '</h4>';
+
+    $dbM->check_if_base_exist('projet_offers');
+    $dbM->check_if_table_exist('users');
+
+}
+
 
