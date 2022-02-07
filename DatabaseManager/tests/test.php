@@ -9,7 +9,7 @@ echo '<p>tests refonte'  . '</p>';
 // set force_import to true erase bdd if exist
 
 // $dbManager = new DatabaseManager('conf.test.json', ["force_import" => 'if_no_exist']);
-$dbManager = new DatabaseManager('tests/conf.test.json', ["force_import" => false]);
+$dbManager = new DatabaseManager('tests/conf.test.json', ["force_import" => 'if_no_exist']);
 
 
 test_values($dbManager);
