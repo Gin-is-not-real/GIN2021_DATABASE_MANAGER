@@ -1,0 +1,111 @@
+---
+# class DatabaseManager
+DatabaseManager:
+  type: class 
+  description: Permit interractions with database, using PDO object. Can connect server, database, check database or table existence. Can import a database from sql file, whether it already exists or not, depending on options
+  # properties
+  properties:
+    type: array
+    name: DB_INFO
+    description: store informations fetched from config file
+    values:
+      - HOST:
+        type: string
+        description: host name
+      - NAME:
+        type: string
+        description: the name of database
+      - USER: 
+        type: string
+        description: username for login to sgbd
+      - PASSWORD:
+        type: string
+        description: password for login to sgbd
+      - TABLENAME:
+        type: string
+        description: the name of table
+      - IMPORT_FILENAME:
+        type: string
+        description: sql file path
+        description
+  # methods
+  methods:
+    constructor:
+      description: lorem ipsum
+      parameters:
+        conf_file_url:
+          type: string
+          description: path to the configuration file
+          optional: true
+          default: path to the default configuration file
+        options:
+          type: array
+          description: options for manager behavior
+          values: 
+            force_import:
+              type: string, boolean
+              description: behavior of method init_PDO after checking if database exist 
+              values:
+                false:
+                  type: boolean
+                  description: nevers import database
+                true: 
+                  type: boolean
+                  description: always import the database. Erase it if already exist
+                if_no_exist:
+                  type: string
+                  description: import the base only if it does not exist
+              optional: true
+              default: false
+    load_config_file:
+      description: Define this->DB_INFO from the information in the json file 
+      parameters:
+        file_url:
+          type: string
+          description: lorem ipsum
+    init_PDO:
+      description: Init object property pdo, firt connected to host, then checks if the database exists, and connects to it if necessary. Change options values for change behaviors.
+      parameters:
+        options:
+          type: array
+          description: options for manager behavior
+          values: 
+            force_import:
+              type: string, boolean
+              description: behavior of method init_PDO after checking if database exist 
+              values:
+                false:
+                  type: boolean
+                  description: nevers import database
+                true: 
+                  type: boolean
+                  description: always import the database. Erase it if already exist
+                if_no_exist:
+                  type: string
+                  description: import the base only if it does not exist
+              optional: true
+              default: false
+    check_if_base_exist:
+      description: Search the base in the information_schema
+      parameters:
+        basename:
+          type: string
+          description: the name of the database to search
+          default: null, hydrated by this property DB_INFO['NAME']
+      return: boolean
+    check_if_table_exist:
+      description: Search the table in the information_schema of the database
+      parameters:
+        tablename:
+          type: string
+          description: the name of the database to search
+          default: null, hydrated by this property DB_INFO['TABLENAME']
+      return: boolean
+    connect_host:
+      description: Init a pdo connected to the host, using object properties
+      return: PDO
+    connect_database:
+      description: Init a pdo connected to the database, using object properties
+    import_database_from_sql:
+      description: Get and formats informations from the sql file to import the database
+---

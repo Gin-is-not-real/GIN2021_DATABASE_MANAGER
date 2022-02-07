@@ -24,7 +24,10 @@ class DatabaseManager {
 
     
     /**
-     * Init object property pdo, firt connected to host, then checks if the database exists, and connects to it if necessary
+     * Init object property pdo, firt connected to host, then checks if the database exists, and connects to it if necessary. 
+     * 
+     * Change options values for change behaviors.
+     * 
      * With option "force_import", 
      */
     private function init_PDO($options = ['force_import' => false]) {
@@ -120,7 +123,7 @@ class DatabaseManager {
 
 
     /**
-     * Init a pdo connected to the host
+     * Init a pdo connected to the host, using object properties
      * @return PDO
      */
     private function connect_host() {
@@ -147,7 +150,7 @@ class DatabaseManager {
 
 
     /**
-     * Init a pdo connected to the database
+     * Init a pdo connected to the database, using object properties
      * @return PDO
      */
     private function connect_database() {
