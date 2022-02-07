@@ -1,5 +1,5 @@
 <?php 
-require 'DatabaseManager.php';
+// require 'DatabaseManager.php';
 
 echo '<h3>script test test.php' . '</h3>';
 echo '<p>tests refonte'  . '</p>';
@@ -9,7 +9,7 @@ echo '<p>tests refonte'  . '</p>';
 // set force_import to true erase bdd if exist
 
 // $dbManager = new DatabaseManager('conf.test.json', ["force_import" => 'if_no_exist']);
-$dbManager = new DatabaseManager('conf.test.json', ["force_import" => true]);
+$dbManager = new DatabaseManager('tests/conf.test.json', ["force_import" => false]);
 
 
 test_values($dbManager);
@@ -24,7 +24,7 @@ function test_values($dbM) {
 
     echo '<h4>' . __METHOD__ .' must be true: ' . '</h4>';
 
-    $dbM->check_if_base_exist('projet_offers');
+    $dbM->check_if_base_exist('demo_dbManager');
     $dbM->check_if_table_exist('users');
 
 }

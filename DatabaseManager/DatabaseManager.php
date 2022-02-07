@@ -3,7 +3,7 @@ class DatabaseManager {
     private $DB_INFO;
     public $pdo;
 
-    public function __construct($conf_file_url = 'conf.test.json', $options = []) {
+    public function __construct($conf_file_url = 'conf.json', $options = []) {
         $this->load_config_file($conf_file_url);
         $this->init_PDO($options);
     }

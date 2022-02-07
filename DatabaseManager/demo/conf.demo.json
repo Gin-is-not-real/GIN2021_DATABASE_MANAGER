@@ -1,0 +1,8 @@
+{
+    "HOST": "localhost",
+    "USER": "root",
+    "PASSWORD": "root",
+    "NAME": "demo_2021_dbmanager",
+    "TABLENAME": "demo_dbManager",
+    "IMPORT_FILENAME": "demo_2021_dbmanager.sql"
+}
