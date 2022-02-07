@@ -1,7 +1,7 @@
 # 2021_DATABASE_MANAGER
 ![g](https://img.shields.io/static/v1?label=php&labelColor=7377ad&message=POO&color=5b5b5b)
 ![g](https://img.shields.io/static/v1?label=php&labelColor=7377ad&message=PDO_object&color=5b5b5b)
-![g](https://img.shields.io/static/v1?label=php&labelColor=7377ad&message=import_ddb_from_sql_file&color=F2F2F2)
+![g](https://img.shields.io/static/v1?label=php&labelColor=7377ad&message=import_ddb_from_sql_file&color=5b5b5b)
 ![g](https://img.shields.io/static/v1?label=php&labelColor=7377ad&message=json&color=yellow)
 
 Une classe php permettant:
